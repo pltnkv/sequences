@@ -20,14 +20,23 @@
         }
 
         .word {
+            position: absolute;
+            width: 100%;
             background-color: burlywood;
-            margin-bottom: 5px;
+            text-align: center;
+            transition: top 0.2s ease-out;
+        }
+        .word-selected {
+            background-color: #DEA475;
+            z-index: 1;
+            transition: none;
         }
     </style>
 </head>
 <body>
 <div id="seqBox"></div>
 <script src="libs/jquery-2.1.4.min.js"></script>
+<script src="src/Word.js"></script>
 <script src="src/app.js"></script>
 </body>
 </html>
