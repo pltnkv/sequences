@@ -1,3 +1,6 @@
+import refs = require("refs/refs")
+import Word = require("app/Word")
+
 var SPACE_BETWEEN_WORDS = 5
 var mainContainer = $('#seqBox')
 var wordsValues = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Indigo', 'Violet']
@@ -14,12 +17,12 @@ function createWords(wordsValues) {
 	var docHeight = window.innerHeight
 	var wordsCount = wordsValues.length
 	var visualHeight = (docHeight / wordsCount) - SPACE_BETWEEN_WORDS
-	var currentWord = null
+	var currentWord:Word = null
 	var deltaY = 0
 	var minYPosition = 0
 	var maxYPosition = (visualHeight + SPACE_BETWEEN_WORDS) * (wordsCount - 1) + SPACE_BETWEEN_WORDS
 	var sortedWords = []
-	var currentWordPosition = undefined
+	var currentWordPosition:number
 	var positionsRanges = []
 
 	createPositionsRanges()
@@ -86,7 +89,7 @@ function createWords(wordsValues) {
 		}
 	}
 
-	function getPotentialPosition(currentPos) {
+	function getPotentialPosition(currentPos):number {
 		for (var i = 0; i < positionsRanges.length; i++) {
 			var range = positionsRanges[i];
 			if (currentPos >= range.start && currentPos < range.end) {
