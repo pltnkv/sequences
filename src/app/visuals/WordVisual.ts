@@ -36,6 +36,10 @@ class Word {
 			this.visual.removeClass('word-selected')
 		}
 	}
+
+	markAsCompleted() {
+		this.visual.addClass('word-completed')
+	}
 }
 
 export = Word

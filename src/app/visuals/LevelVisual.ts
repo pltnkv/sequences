@@ -4,17 +4,19 @@ import MainContainer = require("app/visuals/MainContainer")
 import Level = require("app/Level")
 
 var SPACE_BETWEEN_WORDS = 5
-var completeListener
+var completeListener:() => void
 var levelVisualContainer = $('<div/>')
+var $document:JQuery
+var docHeight:number
 
 export function init(_completeListener) {
     completeListener = _completeListener
     MainContainer.getContainer().append(levelVisualContainer)
+    $document = $(document)
+    docHeight = window.innerHeight
 }
 
 export function setLevel(level:Level) {
-    var $document = $(document)
-    var docHeight = window.innerHeight
     var randomWords = level.wordsSet.getRandomWords()
     var wordsCount = randomWords.length
     var visualHeight = docHeight / wordsCount - SPACE_BETWEEN_WORDS
@@ -25,6 +27,7 @@ export function setLevel(level:Level) {
     var sortedWords:WordVisual[] = []
     var currentWordPosition:number
     var positionsRanges = []
+    var levelCompleted = false
 
     createPositionsRanges()
     createWords()
@@ -52,7 +55,7 @@ export function setLevel(level:Level) {
     function onTouchStart(e) {
         console.log('onTouchStart', e)
         var target = $(e.currentTarget)
-        if (currentWord == null && target.hasClass('word')) {
+        if (currentWord == null && !levelCompleted && target.hasClass('word')) {
             currentWordPosition = findWordIndexByVisual(target)
             currentWord = sortedWords[currentWordPosition]
             currentWord.setSelection(true)
@@ -109,7 +112,9 @@ export function setLevel(level:Level) {
         var wordsValues = []
         sortedWords.forEach(wordVisual => wordsValues.push(wordVisual.value))
         if (level.wordsSet.checkWords(wordsValues)) {
-            alert('Correct!')
+            levelCompleted = true
+            completeListener()
+            hideWords()
         }
     }
 
@@ -137,6 +142,14 @@ export function setLevel(level:Level) {
         redrawSortedWords()
         $document.off('touchmove', onTouchMove)
         $document.off('touchend', onTouchEnd)
+    }
+
+    //***************************
+    // ANIMATIONS  **************
+    //***************************
+
+    function hideWords() {
+        console.log('hideWords')
     }
 }
 
