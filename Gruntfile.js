@@ -4,7 +4,7 @@ module.exports = function (grunt) {
 		ts: {
 			// A specific target
 			build: {
-				src: ["src/**/*.ts"],
+				src: ['src/**/*.ts'],
 				outDir: 'target/scripts',
 				options: {
 					module: 'amd',
@@ -28,24 +28,24 @@ module.exports = function (grunt) {
 			dev: {
 				expand: true,
 				src: [
-					"libs/**",
-					"styles/style.css",
-					"index.html"
+					'libs/**',
+					'styles/style.css',
+					'index.html'
 				],
-				dest: "target/"
+				dest: 'target/'
 			}
 		},
 
 		clean: {
 			dev: {
-				src: "target"
+				src: 'target'
 			}
 		},
 
 		watch: {
 			scripts: {
 				files: ['src/**/*.ts', 'static/**'],
-				tasks: ["ts:build", "less:dev"],
+				tasks: ['ts:build', 'stylus:compile'],
 				options: {
 					spawn: false
 				}
@@ -54,11 +54,11 @@ module.exports = function (grunt) {
 	});
 
 	// load the task
-	grunt.loadNpmTasks("grunt-ts");
+	grunt.loadNpmTasks('grunt-ts');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-stylus');
 
-	grunt.registerTask("default", ["clean:dev", "copy:dev", "ts:build", "stylus:compile"]);
+	grunt.registerTask('default', ['clean:dev', 'copy:dev', 'ts:build', 'stylus:compile']);
 };
