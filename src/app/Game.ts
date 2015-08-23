@@ -12,6 +12,7 @@ export function init() {
 
 function onLevelCompleted() {
     console.log('onLevelCompleted')
+    //переключиться на визуал "Это интересно"
 }
 
 export function runLevel(level:Level) {

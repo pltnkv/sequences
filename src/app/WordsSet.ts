@@ -12,7 +12,7 @@ class WordsSet {
     }
 
     private resortWords(words:string[]):string[] {
-        return Randomizer.shuffle(words)
+        return Randomizer.simple(words)
     }
 
     getSortedWords():string[] {

@@ -29,6 +29,7 @@ export function setLevel(level:Level) {
     var positionsRanges = []
     var levelCompleted = false
 
+    levelVisualContainer.empty()
     createPositionsRanges()
     createWords()
     redrawSortedWords()
@@ -113,8 +114,7 @@ export function setLevel(level:Level) {
         sortedWords.forEach(wordVisual => wordsValues.push(wordVisual.value))
         if (level.wordsSet.checkWords(wordsValues)) {
             levelCompleted = true
-            completeListener()
-            hideWords()
+            runCompleteAnimation()
         }
     }
 
@@ -148,8 +148,38 @@ export function setLevel(level:Level) {
     // ANIMATIONS  **************
     //***************************
 
+    function runCompleteAnimation() {
+        var DELAY = 50
+        for (var i = 0; i < sortedWords.length; i++) {
+            var currentDelay = DELAY * (i + 1)
+            setTimeout(i => {
+                sortedWords[i].markAsCompleted()
+            }, currentDelay, i)
+        }
+        showCompleteLabel(100)
+    }
+
+    function showCompleteLabel(showDelay) {
+        var completeLabel = $('<div class="levelBox_completedLabel"><span>Level completed<br>Tap to continue</span></div>')
+        levelVisualContainer.append(completeLabel)
+        levelVisualContainer.one('touchstart', () => {
+            completeLabel.css('opacity', 0)
+            hideWords()
+        })
+        setTimeout(() => {
+            completeLabel.css('opacity', 1)
+        }, showDelay)
+    }
+
     function hideWords() {
-        console.log('hideWords')
+        var DELAY = 50
+        for (var i = 0; i < sortedWords.length; i++) {
+            var currentDelay = DELAY * (sortedWords.length - i)
+            setTimeout(i => {
+                sortedWords[i].hide(docHeight)
+            }, currentDelay, i)
+        }
+        completeListener()
     }
 }
 
