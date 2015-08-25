@@ -1,11 +1,12 @@
+import SequenceInfo = require("app/data/SequenceInfo")
 import WordsSet = require("app/WordsSet")
 
 class Level {
 
-    wordsSet:WordsSet
+    info:SequenceInfo
 
-    constructor(wordsSet) {
-        this.wordsSet = wordsSet
+    constructor(info:SequenceInfo) {
+        this.info = info
     }
 
     run() {

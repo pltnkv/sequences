@@ -1,23 +1,23 @@
 import refs = require("refs/refs")
 import WordVisual = require("app/visuals/WordVisual")
 import MainContainer = require("app/visuals/MainContainer")
-import Level = require("app/Level")
+import WordsSet = require("app/WordsSet")
 
 var SPACE_BETWEEN_WORDS = 5
-var completeListener:() => void
+var sequenceSortedListener:() => void
 var levelVisualContainer = $('<div/>')
 var $document:JQuery
 var docHeight:number
 
-export function init(_completeListener) {
-    completeListener = _completeListener
+export function init(completeListener) {
+    sequenceSortedListener = completeListener
     MainContainer.getContainer().append(levelVisualContainer)
     $document = $(document)
     docHeight = window.innerHeight
 }
 
-export function setLevel(level:Level) {
-    var randomWords = level.wordsSet.getRandomWords()
+export function setWordsSet(wordsSet:WordsSet) {
+    var randomWords = wordsSet.getRandomWords()
     var wordsCount = randomWords.length
     var visualHeight = docHeight / wordsCount - SPACE_BETWEEN_WORDS
     var currentWord:WordVisual = null
@@ -87,7 +87,6 @@ export function setLevel(level:Level) {
         currentWord.setY(curYPos)
         var newPos = getPotentialPosition(curYPos)
         if (newPos != currentWordPosition) {
-            console.log('newPos', newPos)
             resortWords(newPos, currentWordPosition)
             currentWordPosition = newPos
         }
@@ -112,7 +111,7 @@ export function setLevel(level:Level) {
     function checkSortedWords() {
         var wordsValues = []
         sortedWords.forEach(wordVisual => wordsValues.push(wordVisual.value))
-        if (level.wordsSet.checkWords(wordsValues)) {
+        if (wordsSet.checkWords(wordsValues)) {
             levelCompleted = true
             runCompleteAnimation()
         }
@@ -128,7 +127,7 @@ export function setLevel(level:Level) {
     }
 
     function onTouchEnd(e) {
-        console.log('onTouchEnd', e)
+        console.log('onTouchEnd')
         stopMoving()
         checkSortedWords()
         currentWord = null
@@ -179,7 +178,7 @@ export function setLevel(level:Level) {
                 sortedWords[i].hide(docHeight)
             }, currentDelay, i)
         }
-        completeListener()
+        sequenceSortedListener()
     }
 }
 
